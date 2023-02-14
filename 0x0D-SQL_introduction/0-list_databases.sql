@@ -1,2 +1,2 @@
 #!/bin/bash
-mysql> show databases;
+SHOW DATABASES;
