@@ -1,26 +1,26 @@
 #!/usr/bin/node
-// A script that gets the contents of a webpage and stores it in a file
 
 const request = require('request');
 const url = process.argv[2];
 
-const dictList = {};
-
-request(url, { json: true }, (err, res) => {
-  const list = res.body;
+request(url, function (err, response, body) {
   if (err) {
     console.log(err);
-  } else {
-    for (let i = 0; i < list.length; i++) {
-      const key = list[i].userId;
-      if (list[i].completed === true) {
-        if (!dictList[key]) {
-          dictList[key] = 1;
+  } else if (response.statusCode === 200) {
+    const completed = {};
+    const tasks = JSON.parse(body);
+    for (const i in tasks) {
+      const task = tasks[i];
+      if (task.completed === true) {
+        if (completed[task.userId] === undefined) {
+          completed[task.userId] = 1;
         } else {
-          dictList[key] += 1;
+          completed[task.userId]++;
         }
       }
     }
-    console.log(dictList);
+    console.log(completed);
+  } else {
+    console.log('An error occured. Status code: ' + response.statusCode);
   }
 });

@@ -1,13 +1,12 @@
 #!/usr/bin/node
-// Write a script that display the status code of a GET request
 
 const request = require('request');
-const url = process.argv[2];
+const URL = process.argv[2];
 
-request(url, (err, res) => {
+request(URL, function (err, response) {
   if (err) {
-    console.error(err);
+    console.log(err);
   } else {
-    console.log('code: ' + res.statusCode);
+    console.log('code: ' + response.statusCode);
   }
 });
